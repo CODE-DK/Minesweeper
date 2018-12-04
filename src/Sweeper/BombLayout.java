@@ -70,4 +70,7 @@ class BombLayout {
     }
 
 
+    public int getTotalBombsNumber() {
+        return totalBombs;
+    }
 }

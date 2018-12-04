@@ -28,6 +28,12 @@ public class MainFrame extends JFrame {
 
     private Game game;
 
+    /**
+     * game status
+     */
+
+    private JLabel label;
+
     public static void main(String[] args) {
         MainFrame frame = new MainFrame();
     }
@@ -49,6 +55,8 @@ public class MainFrame extends JFrame {
          */
         setImages();
 
+        initLabel();
+
         /**
          * init and add the panel on main frame
          */
@@ -66,9 +74,6 @@ public class MainFrame extends JFrame {
 
     private void frameConfig(){
 
-
-
-
         //add exit on close to our main frame
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,13 +82,13 @@ public class MainFrame extends JFrame {
 
         setResizable(false);
 
-
         setVisible(true);
 
         //add icon
         setIconImage(getImage("icon"));
 
         pack();
+
         setLocationRelativeTo(null);
     }
 
@@ -142,7 +147,18 @@ public class MainFrame extends JFrame {
                 if (e.getButton() == MouseEvent.BUTTON3){
                     game.pressRightButton(coord);
                 }
+
+                label.setText(getMessage());
                 jPanel.repaint();
+            }
+
+            private String getMessage() {
+                switch (game.getState()){
+                    case PLAYED: return "Think twice!";
+                    case BOMBED: return "BOOM!";
+                    case WINNED: return "Nice!";
+                    default: return "";
+                }
             }
         });
 
@@ -173,5 +189,10 @@ public class MainFrame extends JFrame {
         for (Box box : Box.values()) {
             box.image = getImage(box.name());
         }
+    }
+
+    private void initLabel (){
+        label = new JLabel("Welcom!");
+        add(label, BorderLayout.SOUTH);
     }
 }
