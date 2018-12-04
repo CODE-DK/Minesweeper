@@ -1,5 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import Sweeper.Box;
 import Sweeper.Coord;
 import Sweeper.Game;
@@ -72,10 +75,6 @@ public class MainFrame extends JFrame {
         //set title "Mine Sweeper"
         setTitle("Mine Sweeper");
 
-
-        setLocationRelativeTo(null);
-
-
         setResizable(false);
 
 
@@ -85,6 +84,7 @@ public class MainFrame extends JFrame {
         setIconImage(getImage("icon"));
 
         pack();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -122,6 +122,29 @@ public class MainFrame extends JFrame {
             }
         };
 
+        jPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+                int x = e.getX() / IMAGE_SIZE;
+                int y = e.getY() / IMAGE_SIZE;
+
+                Coord coord = new Coord(x, y);
+
+                if (e.getButton() == MouseEvent.BUTTON1){
+                    game.pressLeftButton(coord);
+                }
+
+                if (e.getButton() == MouseEvent.BUTTON2){
+                    game.start();
+                }
+
+                if (e.getButton() == MouseEvent.BUTTON3){
+                    game.pressRightButton(coord);
+                }
+                jPanel.repaint();
+            }
+        });
 
         jPanel.setPreferredSize(new Dimension(
                 Ranges.getRanges().getSize().getX() * IMAGE_SIZE,
